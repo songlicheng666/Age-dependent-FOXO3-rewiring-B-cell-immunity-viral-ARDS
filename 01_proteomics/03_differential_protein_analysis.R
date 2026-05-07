@@ -12,10 +12,6 @@
 # =============================================================================
 
 setwd("D:/博士毕业/毕业文章/F5蛋白组学对照组")# 定义分组样本列表（用户已提供）
-AA_samples <- c("S28", "S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37")
-AC_samples <- c("S1", "S10", "S11", "S12", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9")
-CA_samples <- c("S47", "S48", "S49", "S50", "S51", "S52", "S53", "S54", "S55", "S56", "S57", "S58", "S59", "S60", "S61", "S62", "S63", "S64", "S65", "S66")
-CC_samples <- c("S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27")
 
 # 合并为分组映射列表
 group_mapping <- list(
@@ -624,7 +620,7 @@ calculate_cliff_delta <- function(data, group_var, value_var) {
   ))
 }
 
-# 使用示例
+
 cd_delta <- calculate_cliff_delta(cd19_data, "Group", "Expression")
 
 # 可视化 --------------------------------------------------------------------
@@ -705,7 +701,7 @@ calculate_cliff_delta <- function(data, group_var, value_var) {
   ))
 }
 
-# 使用示例
+
 cd_delta <- calculate_cliff_delta(cd19_data, "Group", "Expression")
 
 # 可视化 --------------------------------------------------------------------
@@ -883,7 +879,7 @@ calculate_cliff_delta <- function(data, group_var, value_var) {
   ))
 }
 
-# 使用示例
+
 cd_delta <- calculate_cliff_delta(cd19_data, "Group", "Expression")
 
 # 可视化 --------------------------------------------------------------------
@@ -968,7 +964,7 @@ calculate_cliff_delta <- function(data, group_var, value_var) {
   ))
 }
 
-# 使用示例
+
 cd_delta <- calculate_cliff_delta(cd19_data, "Group", "Expression")
 
 # 可视化 --------------------------------------------------------------------
@@ -1055,7 +1051,7 @@ calculate_cliff_delta <- function(data, group_var, value_var) {
   ))
 }
 
-# 使用示例
+
 cd_delta <- calculate_cliff_delta(cd19_data, "Group", "Expression")
 
 # 可视化 --------------------------------------------------------------------
@@ -1226,7 +1222,7 @@ calculate_cliff_delta <- function(data, group_var, value_var) {
   ))
 }
 
-# 使用示例
+
 cd_delta <- calculate_cliff_delta(cd19_data, "Group", "Expression")
 
 # 可视化 --------------------------------------------------------------------
@@ -1314,7 +1310,7 @@ calculate_cliff_delta <- function(data, group_var, value_var) {
   ))
 }
 
-# 使用示例
+
 cd_delta <- calculate_cliff_delta(cd19_data, "Group", "Expression")
 
 # 可视化 --------------------------------------------------------------------
@@ -1614,10 +1610,3 @@ enhanced_volcano <- function(de_results,
 pdf("CC VS AC.pdf", width = 10,height = 10)
 enhanced_volcano(diff_results)
 dev.off()
-setwd("/home/lungtissue/蛋白质组学整合分析/AC比CC")
-write.csv(diff_results,file = "AC比CC差异基因.csv")
-
-setwd("/home/lungtissue/蛋白质组学整合分析")
-write.csv(ALL_sample_final_matrix,file = "直接用于分析的矩阵.csv")
-
-
