@@ -127,8 +127,7 @@ group_colors <- c(
 
 # 定义一个绘图函数 (仅用于画图和统计，不涉及数据计算)
 run_stat_and_plot <- function(csv_path, group1, group2, cell_col, output_prefix, y_lab) {
-  
-  # 1. 读取手动修改后的数据
+ 
   prop_df <- read_csv(csv_path, show_col_types = FALSE)
   
   # 2. 关键：重新设置 Group 因子顺序 (否则画图顺序会乱)
@@ -177,10 +176,6 @@ run_stat_and_plot <- function(csv_path, group1, group2, cell_col, output_prefix,
   
   message(paste0("完成: ", output_prefix))
 }
-
-# ==========================================
-# 开始运行分析 (读取你修改后的CSV)
-# ==========================================
 
 # 1. Control 大群
 run_stat_and_plot(
