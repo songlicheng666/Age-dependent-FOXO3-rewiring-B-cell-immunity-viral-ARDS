@@ -59,7 +59,6 @@ sample_group <- factor(
   levels = c("AA", "AC", "CA1", "CA2", "CC")
 )
 
-# 过滤未分组样本（严格模式）
 valid_samples <- !is.na(sample_group)
 if(sum(!valid_samples) > 0){
   removed_samples <- colnames(prtein_matrix)[!valid_samples]
@@ -317,16 +316,12 @@ dev.off()
 
 
 
-
-
-
-# 数据准备示例（需替换为真实数据）
 protein_ranks <- data.frame(
   Group = rep(c("AA", "AC", "CA1", "CA2", "CC"), each=2500),
   Rank = rep(1:2500, 5),
   Intensity = c(rnorm(2500, mean=3), rnorm(2500, mean=2.8), 
                 rnorm(2500, mean=2.5), rnorm(2500, mean=2.3), 
-                rnorm(2500, mean=2)) # 示例数据
+                rnorm(2500, mean=2)) 
 )
 
 top_proteins <- list(
@@ -379,7 +374,7 @@ ggplot(protein_ranks, aes(x=Rank, y=Intensity, color=Group)) +
 
 
 
-# 新增代码：生成蛋白质丰度分布数据 --------------------------------------------------
+# 生成蛋白质丰度分布数据 --------------------------------------------------
 # 计算每个蛋白质在各组的中位强度（log10转换）
 protein_ranks <- raw_data %>%
   select(Gene_symbol, all_of(colnames(prtein_matrix))) %>%  # 选择所有样本列
