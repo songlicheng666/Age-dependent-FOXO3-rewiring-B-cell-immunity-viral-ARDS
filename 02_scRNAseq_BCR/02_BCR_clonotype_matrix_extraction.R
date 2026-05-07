@@ -109,23 +109,6 @@ head(all_differential_genes)
 table(CountsSeuratB_umap_J$sample)
 
 
-
-
-
-# 原始样本名称
-original_samples <- c("A_CTRL_34", "A_CTRL_35", "A_CTRL_36", "A_CTRL_37", "A_CTRL_38", "A_CTRL_39", "A_CTRL_40", "A_CTRL_41", "A_CTRL_42", "A_CTRL_43", "A_CTRL_44", "A_CTRL_45",
-                      "A_ECMO_on_46", "A_ECMO_on_47", "A_ECMO_on_48", "A_ECMO_on_49", "A_ECMO_on_50", "A_ECMO_on_51", "A_ECMO_on_52", "A_ECMO_on_53", "A_ECMO_on_54",
-                      "C_CTRL_1", "C_CTRL_10", "C_CTRL_11", "C_CTRL_12", "C_CTRL_13", "C_CTRL_2", "C_CTRL_3", "C_CTRL_4", "C_CTRL_5", "C_CTRL_6", "C_CTRL_7", "C_CTRL_8", "C_CTRL_9",
-                      "C_ECMO_off_24", "C_ECMO_off_25", "C_ECMO_off_26", "C_ECMO_off_27", "C_ECMO_off_28", "C_ECMO_off_29", "C_ECMO_off_30", "C_ECMO_off_31", "C_ECMO_off_32", "C_ECMO_off_33",
-                      "C_ECMO_on_14", "C_ECMO_on_15", "C_ECMO_on_16", "C_ECMO_on_17", "C_ECMO_on_18", "C_ECMO_on_19", "C_ECMO_on_20", "C_ECMO_on_21", "C_ECMO_on_22", "C_ECMO_on_23")
-
-# 新的样本名称
-new_samples <- c("S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11", "S12",
-                 "S28", "S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37", 
-                 "S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27",
-                 "S47", "S48", "S49", "S50", "S51", "S52", "S53", "S54", "S55", "S56",
-                 "S57", "S58", "S59", "S60", "S61", "S62", "S63", "S64", "S65", "S66")
-
 # 方法1：使用 plyr::mapvalues
 library(plyr)
 CountsSeuratB_umap_J$sample2 <- plyr::mapvalues(CountsSeuratB_umap_J$sample,
@@ -280,19 +263,6 @@ print("共同的列名：")
 print(common_cols)
 
 
-
-
-
-
-
-
-
-# 首先创建一个按分组的样本顺序列表
-AA_samples <- c("S28", "S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37")
-AC_samples <- c("S1", "S10", "S11", "S12", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9")
-CA_samples <- c("S47", "S48", "S49", "S50", "S51", "S52", "S53", "S54", "S55", "S56", "S57", "S58", "S59", "S60", "S61", "S62", "S63", "S64", "S65", "S66")
-CC_samples <- c("S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27")
-
 # 合并所有样本，按照 AA, AC, CA, CC 的顺序
 ordered_samples <- c(AA_samples, AC_samples, CA_samples, CC_samples)
 
@@ -331,25 +301,6 @@ print(colnames(protein_filtered))
 
 
 # 根据 scBCR_RNA_PB$group2 和 scBCR_RNA_PB$sample2 的对应关系创建 factor
-
-# 首先创建一个样本到分组的映射
-sample_group_mapping <- c(
-  # AA samples
-  setNames(rep("AA", length(c("S28", "S30", "S31", "S32", "S33", "S34", "S35", "S36"))),
-           c("S28", "S30", "S31", "S32", "S33", "S34", "S35", "S36")),
-  
-  # AC samples
-  setNames(rep("AC", length(c("S1", "S10", "S11", "S12", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9"))),
-           c("S1", "S10", "S11", "S12", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9")),
-  
-  # CA samples
-  setNames(rep("CA", length(c("S47", "S48", "S49", "S50", "S51", "S52", "S53", "S54", "S55", "S56", "S57", "S58", "S59", "S60", "S61", "S62", "S63", "S64", "S65", "S66"))),
-           c("S47", "S48", "S49", "S50", "S51", "S52", "S53", "S54", "S55", "S56", "S57", "S58", "S59", "S60", "S61", "S62", "S63", "S64", "S65", "S66")),
-  
-  # CC samples
-  setNames(rep("CC", length(c("S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27"))),
-           c("S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27"))
-)
 
 # 创建 factor 变量
 group_factor <- factor(sample_group_mapping[colnames(protein_filtered)], 
@@ -573,69 +524,6 @@ perf.diablo = perf(basic.diablo.model, validation = 'Mfold',
 
 
 
-
-
-#上述方法仍然不起作用
-# 使用 PCA 进行降维
-library(stats)
-
-for(block in names(data)) {
-  # 只处理大型数据块
-  if(ncol(data[[block]]) > 1000) {
-    # 进行PCA
-    pca_result = prcomp(data[[block]], scale. = TRUE)
-    
-    # 选择解释95%方差所需的主成分数
-    var_explained = cumsum(pca_result$sdev^2/sum(pca_result$sdev^2))
-    n_comp = which(var_explained >= 0.95)[1]
-    
-    # 使用PCA转换后的数据
-    data[[block]] = pca_result$x[, 1:n_comp, drop = FALSE]
-    
-    cat(block, "数据块通过PCA降维到", n_comp, "个特征\n")
-  }
-}
-
-# 重新构建模型
-basic.diablo.model = block.splsda(X = data, 
-                                  Y = Y, 
-                                  ncomp = 3, 
-                                  design = design,
-                                  scale = TRUE)
-
-# 运行交叉验证
-perf.diablo = perf(basic.diablo.model, 
-                   validation = 'Mfold', 
-                   folds = 10, 
-                   nrepeat = 10)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-data = list(
-  protein = t(as.matrix(sapply(scBCR_data$data.train$protein_matrix, as.numeric))),
-  cloneType = t(as.matrix(scBCR_data$data.train$cloneType_proportion)),
-  Isotype = t(as.matrix(scBCR_data$data.train$Isotype_proportion)),
-  gene = t(as.matrix(scBCR_data$data.train$filtered_matrix))
-)
-
-
-
-rm(CountsSeuratB_umap_J)
-
-
 plot(perf.diablo) # plot output of tuning
 #From the performance plot above (Figure 2) we observe that both overall and balanced error rate (BER) decrease from 1 to 2 components. The standard deviation indicates a potential slight gain in adding more components. The centroids.dist distance seems to give the best accuracy (see Supplemental Material in [6]). Considering this distance and the BER, the output $choice.ncomp indicates the optimal number of components for the final DIABLO model.
 # set the optimal ncomp value
@@ -665,29 +553,19 @@ final.diablo.model$design # design matrix for the final model
 #可以使用函数 selectVar() 提取所选变量，例如在 gene 块中，如下所示。请注意，可以从perf()函数的输出中提取所选变量的稳定性。
 # the features selected to form the first component
 selectVar(final.diablo.model, block = 'gene', comp = 3)$gene$name 
-##  [1] "ZNF552"  "KDM4B"   "CCNA2"   "LRIG1"   "PREX1"   "FUT8"    "C4orf34"
-##  [8] "TTC39A"  "ASPM"    "SLC43A3" "MEX3A"   "SEMA3C"  "E2F1"    "STC2"   
-## [15] "FMNL2"   "LMO4"    "MED13L"  "DTWD2"   "CSRP2"   "NTN4"    "KIF13B" 
-## [22] "NCAPG2"  "SLC19A2" "EPHB3"   "FAM63A"
+
 selectVar(final.diablo.model, block = 'protein', comp = 3)$protein$name
 #plotDIABLO() is a diagnostic plot to check whether the correlation between components from each data set has been maximised as specified in the design matrix. We specify which dimension to be assessed with the ncomp argument.
 plotDiablo(final.diablo.model, ncomp = 4)
-#如图 3 所示，每个数据集的第一个分量彼此高度相关（由左下角的大数字表示）。与样本亚型相关的颜色和省略号表示每个成分区分不同肿瘤亚型的鉴别能力。对于第一个组件，每个子类型的质心都是不同的，但每个样本组在其置信椭圆中存在适度的重叠。
-#带有该函数的plotIndiv()样本图将每个样本投影到每个模块的元件所跨越的空间中（图 4）。使用此图可以更好地评估样本的聚类。mRNA 数据的聚类质量似乎最高，而 miRNA 聚类质量最低。这表明 mRNA 在模型中可能具有更多的鉴别能力。
 
 plotIndiv(final.diablo.model, ind.names = FALSE, legend = TRUE, 
           title = 'DIABLO Sample Plots')
 #In the arrow plot below (Figure), the start of the arrow indicates the centroid between all data sets for a given sample and the tips of the arrows indicate the location of that sample in each block. Such graphics highlight the agreement between all data sets at the sample level. While somewhat difficult to interpret, even qualitatively, Figure 5 shows that the agreement within the LumA group seems to be the highest and lowest in the Her2 group.
-#在下面的箭头图（图）中，箭头的开头表示给定样品的所有数据集之间的质心，箭头的尖端表示该样品在每个块中的位置。此类图形突出显示了样本级别所有数据集之间的一致性。虽然有些难以解释，甚至在定性上也很难解释，但图 5 显示LumA，组内的一致性似乎是Her2组中最高和最低的。
 
 plotArrow(final.diablo.model, ind.names = FALSE, legend = TRUE, 
           title = 'DIABLO')
 
 #Several graphical outputs are available to visualise and mine the associations between the selected variables.
-#可以使用多个图形输出来可视化和挖掘所选变量之间的关联。
-
-#The best starting point to evaluate the correlation structure between variables is with the correlation circle plot, depicted in Figure 6. A majority of the miRNA variables are positively correlated with the first component while the mRNA variables seem to separate along this dimension. These first two components correlate highly with the selected variables from the proteomics dataset. From this, the correlation of each selected feature from all three datasets can be evaluated based on their proximity. s
-#评估变量之间相关结构的最佳起点是使用相关圆图，如图 6 所示。大多数 miRNA 变量与第一个组分呈正相关，而 mRNA 变量似乎沿此维度分离。前两个组成部分与蛋白质组学数据集中选定的变量高度相关。由此，可以根据所有三个数据集中每个选定要素的接近度来评估它们的相关性。s
 
 plotVar(final.diablo.model, var.names = FALSE, 
         style = 'graphics', legend = TRUE,
@@ -696,41 +574,27 @@ plotVar(final.diablo.model, var.names = FALSE,
         col = c('darkorchid', 'brown1', 'lightgreen',"orange"))
 
 #The circos plot is exclusive to integrative frameworks and represents the correlations between variables of different types, represented on the side quadrants. From Figure 7, it seems that the miRNA variables are almost entirely negatively correlated with the other two dataframes. The proteomics features are the opposite, such that they display primarily positive correlations while the mRNA variables are more mixed. Note that these correlations are above a value of 0.7 (cutoff = 0.7). All the interpretations made above are only relevant for features with very strong correlations.
-#circos 图是综合框架独有的，表示不同类型变量之间的相关性，在侧象限上表示。从图 7 中可以看出，miRNA 变量似乎几乎完全与其他两个数据帧呈负相关。蛋白质组学特征正好相反，因此它们主要显示正相关，而 mRNA 变量则更加混合。请注意，这些相关性高于 0.7 （cutoff = 0.7 ） 的值。上面所做的所有解释仅与具有非常强相关性的特征相关。
 
 circosPlot(final.diablo.model, cutoff = 0.7, line = TRUE,
            color.blocks= c('darkorchid', 'brown1', 'lightgreen',"orange"),
            color.cor = c("chocolate3","grey20"), size.labels = 1.5)
 
 #Another visualisation of the correlations between the different types of variables is the relevance network, which is also built on the similarity matrix (as is the circos plot). Each colour represents a type of variable. Figure 8 shows this network which has a lower cutoff an Figure 7 (cutoff = 0.4). Two distinct clusters can be observed, though due to the density of the plot the relationships within the cluster are hard to determine. The interactive version of this plot would be useful here.
-#不同类型变量之间相关性的另一种可视化方式是相关性网络，它也建立在相似性矩阵之上（就像 circos 图一样）。每种颜色代表一种类型的变量。图 8 显示了这个网络，其截止值较低，图 7 （cutoff = 0.4 ）。可以观察到两个不同的集群，但由于图的密度，集群内的关系很难确定。此图的交互式版本在此处将很有用。
 
 network(final.diablo.model, blocks = c(1,2,3),
         color.node = c('darkorchid', 'brown1', 'lightgreen'), cutoff = 0.4)
 
 #The network can be saved in a .gml format to be input into the software Cytoscape, using the R package igraph. An example is shown directly below.
-#可以使用R软件包igraph将网络保存为输入到 Cytoscape 软件中的.gml格式。下面直接显示了一个示例。
 
 library(igraph)
 my.network = network(final.diablo.model, blocks = c(1,2,3),
                      color.node = c('darkorchid', 'brown1', 'lightgreen'), cutoff = 0.4)
 write.graph(my.network$gR, file = "myNetwork.gml", format = "gml")
 #The function plotLoadings() visualises the loading weights of each selected variable on each component and each data set (Figure 9). The colour indicates the class in which the variable has the maximum level of expression (contrib = 'max') using the median (method = 'median'). Figure 9 depicts the loading values for the second dimension.
-#该函数plotLoadings()可视化每个组件和每个数据集上每个选定变量的加载权重（图 9）。颜色表示变量具有最大表达式级别 （contrib = 'max' ） 的类，使用中位数 （method = 'median' ）。图 9 描述了第二个维度的载荷值。
 plotLoadings(final.diablo.model, comp = 2, contrib = 'max', method = 'median')
-
-#该cimDIABLO()函数是一个聚类图像图，专门用于表示每个样品的多组学分子特征表达。从图 10 中，可以确定一组样品在一组特征中的均一表达水平区域。例如，样品Her2是唯一一组特定蛋白质表现出极高表达水平的组（如图 10 中部底部的红色小块所示）。这表明这些特征对于此子类型具有相当的区别。
 
 cimDiablo(final.diablo.model)
 
-
-#我们使用函数 perf() .该方法在对象final.diablo.model输入的预先指定的参数上运行block.splsda()模型，但在交叉验证的样本上运行模型。然后，我们评估对遗漏样本的预测准确性。
-
-#In addition to the usual (balanced) classification error rates, predicted dummy variables and variates, as well as the stability of the selected features, the perf() function for DIABLO outputs the performance based on Majority Vote (each data set votes for a class for a particular test sample) or a weighted vote, where the weight is defined according to the correlation between the latent component associated to a particular data set and the outcome.
-#除了通常的（平衡的）分类错误率、预测的虚拟变量和变量以及所选特征的稳定性外，DIABLO perf() 的函数还根据多数投票（每个数据集投票支持特定测试样本的一个类）或加权投票来输出性能，其中权重是根据与特定数据集相关的潜在成分与结果之间的相关性定义的。
-
-#Since the tune() function was used with the centroid.dist argument, the outputs of the perf() function for that same distance are examined. The following code may take a few minutes to run.
-#由于该tune()函数与centroid.dist参数一起使用，因此将检查相同距离的perf()函数输出。以下代码可能需要几分钟才能运行。
 
 # run repeated CV performance evaluation
 perf.diablo = perf(final.diablo.model, validation = 'Mfold', 
@@ -739,34 +603,15 @@ perf.diablo = perf(final.diablo.model, validation = 'Mfold',
 
 perf.diablo$MajorityVote.error.rate
 
-#From the above output, it can be seen that the error rate across the board is quite low, indicating the constructed DIABLO model does a fairly good job of classifying novel samples.
-#从上面的输出中可以看出，整体错误率相当低，这表明构建的 DIABLO 模型在对新样本的分类方面做得相当好。
-
-#An AUC plot per block can also be obtained using the function auroc(). The interpretation of this output may not be particularly insightful in relation to the performance evaluation of our methods, but can complement the statistical analysis..
-#也可以使用函数 auroc() 获得每个块的 AUC 图 。对于我们方法的性能评估，这个输出的解释可能并不特别有洞察力，但可以补充统计分析。
-
 auc.splsda = auroc(final.diablo.model, roc.block = "miRNA", 
                    roc.comp = 2, print = FALSE)
 
-#The predict() function predicts the class of samples from a test set. In our specific case, one data set is missing in the test set but the method can still be applied. Make sure the name of the blocks correspond exactly.
-#该predict()函数预测测试集中的样本类。在我们的特定情况下，测试集中缺少一个数据集，但仍然可以应用该方法。确保块的名称完全对应。
 
 data.test.TCGA = list(mRNA = breast.TCGA$data.test$mrna,
                       miRNA = breast.TCGA$data.test$mirna)
 
 predict.diablo = predict(final.diablo.model, newdata = data.test.TCGA)
-#The confusion table compares the real subtypes with the predicted subtypes for a 2-component model, for the distance of interest. This model performs quite well as it makes only two errors:
-#  混淆表将 2 分量模型的真实子类型与预测子类型进行比较，以了解感兴趣距离。这个模型表现得相当不错，因为它只犯了两个错误：
 
 confusion.mat = get.confusion_matrix(truth = breast.TCGA$data.test$subtype,
                                      predicted = predict.diablo$WeightedVote$centroids.dist[,2])
 confusion.mat
-##       predicted.as.Basal predicted.as.Her2 predicted.as.LumA
-## Basal                 20                 1                 0
-## Her2                   0                14                 0
-## LumA                   0                 1                34
-#These two errors correspond to a very low balanced error rate.
-#这两个误差对应于非常低的平衡误差率。
-
-get.BER(confusion.mat)
-## [1] 0.02539683
