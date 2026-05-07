@@ -49,21 +49,6 @@ print(paste("共同的列数：", length(common_cols)))
 print("共同的列名：")
 print(common_cols)
 
-
-
-
-
-
-
-
-
-# 首先创建一个按分组的样本顺序列表
-AA_samples <- c("S28", "S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37")
-AC_samples <- c("S1", "S10", "S11", "S12", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9")
-CA1_samples <- c("S47", "S48", "S49", "S50", "S51", "S52", "S53", "S54", "S55", "S56", "S57")
-CA2_samples <- c("S58", "S59", "S60", "S61", "S62", "S63", "S64", "S65", "S66")
-CC_samples <- c("S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27")
-# 合并所有样本，按照 AA, AC, CA, CC 的顺序
 ordered_samples <- c(AA_samples, AC_samples, CA1_samples, CA2_samples, CC_samples)
 
 # 获取四个数据框共同的列
@@ -94,27 +79,6 @@ print(colnames(protein_filtered))
 
 
 # 根据 scBCR_RNA_PB$group2 和 scBCR_RNA_PB$sample2 的对应关系创建 factor
-
-# 首先创建一个样本到分组的映射
-sample_group_mapping <- c(
-  # AA samples
-  setNames(rep("AA", length(c("S28", "S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37"))),
-           c("S28", "S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37")),
-  
-  # AC samples
-  setNames(rep("AC", length(c("S1", "S10", "S11", "S12", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9"))),
-           c("S1", "S10", "S11", "S12", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9")),
-  
-  # CA samples
-  setNames(rep("CA1", length(c("S47", "S48", "S49", "S50", "S51", "S52", "S53", "S54", "S55", "S56", "S57"))),
-           c("S47", "S48", "S49", "S50", "S51", "S52", "S53", "S54", "S55", "S56", "S57")),
-  setNames(rep("CA2", length(c("S58", "S59", "S60", "S61", "S62", "S63", "S64", "S65", "S66"))),
-           c("S58", "S59", "S60", "S61", "S62", "S63", "S64", "S65", "S66")),
-  
-  # CC samples
-  setNames(rep("CC", length(c("S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27"))),
-           c("S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27"))
-)
 
 # 创建 factor 变量
 group_factor <- factor(sample_group_mapping[colnames(protein_filtered)], 
